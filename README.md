@@ -1,2 +1,1 @@
-# personal-projects
-# personal-projects
+# Clone of social media app

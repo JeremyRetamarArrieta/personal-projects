@@ -16,7 +16,10 @@ mongoose.connect('mongodb://localhost:27017/auth-user' , {"userNewUrlParser": tr
 })
 
 app.use("/auth", require('./routes/authRoutes.js'))
-app.use("/api/posts", require('./routes/postRoutes.sj'))
+app.use("/api/posts", require('./routes/postRoutes.js'))
+
+app.use("/api", expressJwt({secret: process.env.SECRET}))
+app.use("/api/posts", )
 
 app.use((err, req, res, next) => {
     console.error(err)
@@ -27,5 +30,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(PORT, () => {
-    console.lot(`(>..)> Server is running on Port ${PORT}`)
+    console.log(`(>..)> Server is running on Port ${PORT}`)
 })

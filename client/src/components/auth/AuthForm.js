@@ -1,4 +1,5 @@
 import React from 'react'
+import {withUser} from '../../context/UserProvider.js'
 
 const AuthForm = props => {
     const {handleSubmit, handleChange, inputs, btnText} = props
@@ -8,14 +9,14 @@ const AuthForm = props => {
                 type="text" 
                 name="username" 
                 onChange={handleChange} 
-                value={username} 
+                value={props.username} 
                 placeholder="Username" 
                 required/>
             <input 
                 type="password" 
                 name="password" 
                 onChange={handleChange} 
-                value={password} 
+                value={props.password} 
                 placeholder="Password" 
                 required/>
             <button>{btnText}</button>
@@ -23,4 +24,4 @@ const AuthForm = props => {
     )
 }
 
-export default AuthForm
+export default withUser(AuthForm)

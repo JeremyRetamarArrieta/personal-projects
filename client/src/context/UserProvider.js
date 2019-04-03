@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Axios from 'axios';
+import axios from 'axios';
 
 const UserContext = React.createContext()
 
@@ -7,8 +7,10 @@ class UserProvider extends Component {
     constructor(){
         super()
         this.state = {
-            user: JSON.parse(localStorage.user) || {},
-            token: localStorage.token || ""
+            // user: JSON.parse(localStorage.user) || {},
+            // token: localStorage.token || "",
+            username: "",
+            password: ""
         }
     }
 
@@ -48,8 +50,7 @@ class UserProvider extends Component {
 
 export default UserProvider
 
-
-const withUser = C => props => (
+export const withUser = C => props => (
     <UserContext.Consumer>
         { value => <C {...props} {...value}/>}
     </UserContext.Consumer>

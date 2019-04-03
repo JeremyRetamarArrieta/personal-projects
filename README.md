@@ -1,1 +1,1 @@
-# Clone of social media app
+# Full stack chat app

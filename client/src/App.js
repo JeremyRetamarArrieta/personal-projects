@@ -1,21 +1,30 @@
 import React, { Component } from 'react'
 import Chatkit from '@pusher/chatkit'
-import MessageList from '../componets/MessageList.js'
-import SendMessageForm from '../components/SendMessageForm.js'
-import RoomList from "../components/RoomList.js"
-import NewRoomForm from "../components/NewRoomForm.js"
+import MessageList from './components/MessageList.js'
+import SendMessageForm from './components/SendMessageForm.js'
+import RoomList from "./components/RoomList.js"
+import NewRoomForm from "./components/NewRoomForm.js"
+import "./Style.css"
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { withUser } from './context/UserProvider.js'
+import AuthContainer from './components/auth/AuthContainer.js'
 
-import { tokenUrl, instanceLocator } from '.config'
+import { tokenUrl, instanceLocator } from './config.js'
 
+const { user, token, signup, login } = props
 
 class App extends Component {
 
+
   componentDidMount() {
+    const tokenProvider = new Chatkit.TokenProvider({
+      url: tokenUrl
+    });
+
     const chatManager = new Chatkit.ChatManager({
-      userId: '1', //swapout later
-      tokenProvider: new Chatkit.tokenProvider({
-        url: tokenUrl
-      })
+      instanceLocator: instanceLocator,
+      userId: 'Jeremy',
+      tokenProvider: tokenProvider
     })
 
     chatManager.connect().then(currentUser => {
@@ -33,13 +42,22 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Switch>
+          <Route 
+            path="/login" 
+              render={rProps => 
+                <AuthContainer 
+                {...rProps}
+                signup={signup}
+                login={login}/>}/>
         <RoomList />
         <MessageList />
         <SendMessageForm />
         <NewRoomForm />
+        </Switch>
       </div>
     )
   }
 }
 
-export default App;
+export default withUser(App)

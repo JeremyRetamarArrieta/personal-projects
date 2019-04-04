@@ -9,6 +9,9 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { withUser } from './context/UserProvider.js'
 import AuthContainer from './components/auth/AuthContainer.js'
 import { tokenUrl, instanceLocator } from './config.js'
+import Navbar from './routes/Navbar.js'
+import Home from './components/Home.js'
+import ProtectedRoute from './shared/ProtectedRoute.js'
 
 
 
@@ -29,22 +32,25 @@ class App extends React.Component {
 }
 
 componentDidMount() {
+  let tokenProvider = new Chatkit.TokenProvider({
+    url: tokenUrl
+  })
+
   const chatManager = new Chatkit.ChatManager({
       instanceLocator,
       userId: 'Jeremy',
-      tokenProvider: new Chatkit.TokenProvider({
-          url: tokenUrl
-      })
+      tokenProvider: tokenProvider
   });
   
-  console.log(chatManager)
   chatManager.connect()
   .then(currentUser => {
       this.currentUser = currentUser
       this.getRooms()
+
   })
   .catch(err => console.log('error on connecting: ', err))
 }
+  
 
   getRooms() {
     this.currentUser.getJoinableRooms()
@@ -74,16 +80,43 @@ componentDidMount() {
             roomId: room.id
         })
         this.getRooms()
+        
     })
     .catch(err => console.log('error on subscribing to room: ', err))
   }
 
   sendMessage(text) {
+    
+    console.log(this.currentUser)
+    console.log(text)
     this.currentUser.sendMessage({
-        text,
+        text: text,
         roomId: this.state.roomId
     })
+    .then(messageId => {
+      this.fetchMessages()
+      //console.log(`Added message to ${myRoom.name}`)
+    })
+    .catch(err => {
+      console.log(`Error adding message: ${err}`)
+    })
   }
+
+  
+fetchMessages(){
+  console.log(this.state.roomId)
+  this.currentUser.fetchMessages({
+    roomId: this.state.roomId
+  })
+  .then(messages => {
+    console.log(messages)
+    this.setState({messages: messages })
+  })
+  .catch(err => {
+    console.log(`Error fetching messages`)
+  })
+}
+
 
   createRoom(name) {
     this.currentUser.createRoom({
@@ -95,19 +128,27 @@ componentDidMount() {
 
   render() {
 
-    const { user, token, signup, login } = this.props
+    const { user, token } = this.props
 
     return (
-      <div className="App">
+      <div className="app">
+        
+        <Navbar/>
+
         <Switch>
           <Route 
             path="/login" 
-              render={rProps => 
-                <AuthContainer 
-                {...rProps}
-                signup={signup}
-                login={login}/>}/>
-                </Switch>
+            render={rProps =>  token ? <Redirect to="/home"/> : <AuthContainer {...rProps}/>}/>
+          <ProtectedRoute
+            token={token}
+            path="/home"
+            redirectedTo="/login"
+            component={Home}
+            username={user.username}
+          />
+        </Switch>
+
+        
         <RoomList 
             subscribeToRoom={this.subscribeToRoom}
             rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
@@ -120,7 +161,6 @@ componentDidMount() {
             sendMessage={this.sendMessage} />
         <NewRoomForm 
             createRoom={this.createRoom}/>
-        
       </div>
     )
   }

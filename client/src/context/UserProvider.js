@@ -40,6 +40,12 @@ class UserProvider extends Component {
         .catch(err => console.log(err))
     }
 
+    // logout = () => {
+    //     localStorage.removeItem("token")
+    //     localStorage.removeItem("user")
+    //     this.setState({ user: {}, token})
+    // }
+
     getProtectedStuff = () => {
         userAxios.get("/api/user/specialsomething").then(res => {
 

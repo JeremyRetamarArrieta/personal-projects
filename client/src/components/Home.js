@@ -1,9 +1,12 @@
 import React from 'react'
 
-const Home = (props) =>{
-    return(
+const Home = ({logout, username}) => {
+    return (
         <div>
-       Welcome {props.username}
+            <br/>
+            <button onClick={logout}>Logout</button>
+            <br/>
+            Welcome Home {username}
         </div>
     )
 }

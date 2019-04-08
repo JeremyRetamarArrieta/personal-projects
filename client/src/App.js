@@ -13,25 +13,31 @@ import ChatRoom from './ChatRoom.js'
 
 class App extends Component {
 
-    render (props) {
+    render () {
         const token = this.props.token
         const user = this.props.user
+        const logout = this.props.logout
     return (
         <div className='app'>
             <Navbar 
             token = {token}/>
         <Switch>
-          <Route 
-            path="/" 
-            render={rProps =>  token ? <Redirect to="/home"/> : <AuthContainer {...rProps}/>}/>
-          <ProtectedRoute
-            token={token}
-            path="/home"
-            redirectedTo="/login"
-            component={Home}
-            username={user.username}/>
-            <Route path='/contact' component={Contact} />
-            <Route path='/chatroom' component={ChatRoom} />
+            <Route 
+                exact path="/" 
+                render={rProps =>  token ? <Redirect to="/home"/> : <Redirect to="/login"/>}/>
+            <Route 
+                path="/login"
+                render={rProps =>  token ? <Redirect to="/home"/> : <AuthContainer {...rProps}/>}/>
+            />
+            <ProtectedRoute
+                token={token}
+                path="/home"
+                redirectedTo="/login"
+                component={Home}
+                username={user.username}
+                logout={logout}/>
+                <Route path='/contact' component={Contact} />
+                <Route path='/chatroom' component={ChatRoom} />
         </Switch>
         </div>
     )

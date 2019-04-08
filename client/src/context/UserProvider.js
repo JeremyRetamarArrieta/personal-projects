@@ -22,6 +22,7 @@ class UserProvider extends Component {
 
     signup = credentials => {
         axios.post("/auth/signup", credentials).then(res => {
+            console.log('resolution')
             const { user, token } = res.data
             localStorage.setItem("user", JSON.stringify(user))
             localStorage.setItem("token", token)
@@ -29,9 +30,18 @@ class UserProvider extends Component {
         })
         .catch(err => console.log(err))
     }
+
+    // createchatuser = () => {
+    //     const { user, token } = this.state
+
+    //     axios.post(`https://us1.pusherplatform.io/services/chatkit/v3/:v1:us1:aeb802c1-dbcb-4bd8-9577-fd542318a5f9/users/${user}`, {id: `${user._id}` , name: user}).then(res => {
+            
+    //     }).catch(err => console.log(err))
+    // }
 
     login = credentials => {
         axios.post("/auth/login", credentials).then(res => {
+            console.log('hello')
             const { user, token } = res.data
             localStorage.setItem("user", JSON.stringify(user))
             localStorage.setItem("token", token)
@@ -40,17 +50,17 @@ class UserProvider extends Component {
         .catch(err => console.log(err))
     }
 
-    // logout = () => {
-    //     localStorage.removeItem("token")
-    //     localStorage.removeItem("user")
-    //     this.setState({ user: {}, token})
-    // }
-
-    getProtectedStuff = () => {
-        userAxios.get("/api/user/specialsomething").then(res => {
-
-        })
+    logout = () => {
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
+        this.setState({ user: {}, token: ""})
     }
+
+    // getProtectedStuff = () => {
+    //     userAxios.get(`https://us1.pusherplatform.io/services/chatkit/v3/:v1:us1:aeb802c1-dbcb-4bd8-9577-fd542318a5f9/users/${user_id}`).then(res => {
+
+    //     }).catch(err => console.log(err))
+    // }
 
     render(){
         return (
@@ -58,7 +68,8 @@ class UserProvider extends Component {
                 value={{
                     ...this.state,
                     signup: this.signup,
-                    login: this.login
+                    login: this.login,
+                    logout: this.logout
                 }}>
                 { this.props.children }
             </UserContext.Provider>
@@ -67,6 +78,7 @@ class UserProvider extends Component {
 }
 
 export default withRouter(UserProvider)
+
 
 
 export const withUser = C => props => (

@@ -6,6 +6,7 @@ import RoomList from "./components/RoomList.js"
 import NewRoomForm from "./components/NewRoomForm.js"
 import { withUser } from './context/UserProvider.js'
 import { tokenUrl, instanceLocator } from './config.js'
+import './chatroom.css'
 
 
 
@@ -19,6 +20,7 @@ class ChatRoom extends React.Component {
         joinableRooms: [],
         joinedRooms: []
     }
+    this.currentUser = null
     this.sendMessage = this.sendMessage.bind(this)
     this.subscribeToRoom = this.subscribeToRoom.bind(this)
     this.getRooms = this.getRooms.bind(this)
@@ -32,13 +34,14 @@ componentDidMount() {
 
   const chatManager = new Chatkit.ChatManager({
       instanceLocator,
-      userId: 'Jeremy',
+      userId: "Jeremy",
       tokenProvider: tokenProvider
   });
   
   chatManager.connect()
   .then(currentUser => {
       this.currentUser = currentUser
+      console.log(this.currentUser)
       this.getRooms()
 
   })
@@ -89,7 +92,7 @@ componentDidMount() {
     })
     .then(messageId => {
       this.fetchMessages()
-      //console.log(`Added message to ${myRoom.name}`)
+     
     })
     .catch(err => {
       console.log(`Error adding message: ${err}`)
@@ -113,6 +116,7 @@ fetchMessages(){
 
 
   createRoom(name) {
+  
     this.currentUser.createRoom({
         name
     })

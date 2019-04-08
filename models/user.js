@@ -16,7 +16,7 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         default: false
-    }
+    },
 })
 
 userSchema.pre("save", function(next){

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import AuthForm from './AuthForm.js'
 import { withUser } from '../../context/UserProvider.js'
 
@@ -9,20 +9,23 @@ class AuthContainer extends Component {
             username: "",
             password: "",
             authToggle: false
-          }
+        }
     }
+
     handleChange = e => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
-    handleSignup = e => {
+
+    handleSignUp = e => {
         e.preventDefault()
         const credentials = {
             username: this.state.username,
             password: this.state.password
         }
         this.props.signup(credentials)
+        console.log('hello there')
     }
 
     handleLogin = e => {
@@ -31,7 +34,7 @@ class AuthContainer extends Component {
             username: this.state.username,
             password: this.state.password
         }
-        this.props.signup(credentials)
+        this.props.login(credentials)
     }
 
     toggler = () => {
@@ -44,32 +47,35 @@ class AuthContainer extends Component {
         return (
             <div>
                 { this.state.authToggle ?
-                <>
-                    <h3>Sign up</h3>
-                    <AuthForm 
-                    handleChange={this.handleChange}
-                    handleSubmit={this.handleSignup}
-                    username={this.state.username}
-                    password={this.state.password}
-                    btnText = "Sign up"
-                    />
-                    <p onClick={this.toggler}>Already a member?</p>
-                </>
-                :
-                <>
-                    <h3>Login</h3>
-                    <AuthForm
-                    handleChange={this.handleChange}
-                    username={this.state.username}
-                    password={this.state.password}
-                    btnText = "Login" 
-                    />
-                    <p onClick={this.toggler}>Not a member?</p>
-                </>
+                    <>
+                        <h3>Sign Up</h3>
+                        <AuthForm
+                            handleChange={this.handleChange}
+                            handleSubmit={this.handleSignUp}
+                            username={this.state.username}
+                            password={this.state.password}
+                            btnText="Sign Up"
+                        />
+                        <p style={{color: 'firebrick'}}>{this.props.errMsg}</p>
+                        <p onClick={this.toggler}>Already a member?</p>
+                    </>
+                    :
+                    <>
+                        <h3>Login</h3>
+                        <AuthForm 
+                            handleChange={this.handleChange}
+                            handleSubmit={this.handleLogin}
+                            username={this.state.username}
+                            password={this.state.password}
+                            btnText="Login"
+                        />
+                        <p style={{color: 'firebrick'}}>{this.props.errMsg}</p>
+                        <p onClick={this.toggler}>Not a member?</p>
+                    </>
                 }
             </div>
         )
     }
 }
 
-export default AuthContainer
+export default withUser(AuthContainer)

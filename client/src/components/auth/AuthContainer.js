@@ -45,7 +45,7 @@ class AuthContainer extends Component {
 
     render(){
         return (
-            <div>
+            <div className="login">
                 { this.state.authToggle ?
                     <>
                         <h3>Sign Up</h3>

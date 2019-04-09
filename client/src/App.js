@@ -8,7 +8,7 @@ import Home from './components/Home.js'
 import ProtectedRoute from './shared/ProtectedRoute.js'
 import Contact from './components/Contact.js'
 import ChatRoom from './ChatRoom.js'
-
+import Posts from './components/Posts.js'
 
 
 class App extends Component {
@@ -19,7 +19,8 @@ class App extends Component {
         const logout = this.props.logout
     return (
         <div className='app'>
-            <Navbar 
+            <Navbar
+            className='navbar' 
             token = {token}/>
         <Switch>
             <Route 
@@ -38,6 +39,7 @@ class App extends Component {
                 logout={logout}/>
                 <Route path='/contact' component={Contact} />
                 <Route path='/chatroom' component={ChatRoom} />
+                <Route path='/posts' component={Posts} />
         </Switch>
         </div>
     )

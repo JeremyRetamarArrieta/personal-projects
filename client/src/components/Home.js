@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home = ({logout, username}) => {
     return (
-        <div>
+        <div className="home">
             <br/>
             <button onClick={logout}>Logout</button>
             <br/>

@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Posts = () =>{
+
+const Posts = (username) => { 
     return(
-        <div>
-        This is the posts page.
+        <div className="posts">
+        <h3>Posts would be here... I promise</h3>
         </div>
     )
 }

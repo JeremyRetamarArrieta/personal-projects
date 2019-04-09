@@ -4,15 +4,17 @@ import {withUser} from '../../context/UserProvider.js'
 const AuthForm = props => {
     const {handleSubmit, handleChange, inputs, btnText} = props
     return (
-        <form onSubmit={handleSubmit}>
-            <input 
+        <form className="authform" onSubmit={handleSubmit}>
+            <input
+                className="login-input" 
                 type="text" 
                 name="username" 
                 onChange={handleChange} 
                 value={props.username} 
                 placeholder="Username" 
                 required/>
-            <input 
+            <input
+                className="login-input" 
                 type="password" 
                 name="password" 
                 onChange={handleChange} 

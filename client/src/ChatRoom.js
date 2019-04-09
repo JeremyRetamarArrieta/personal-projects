@@ -6,7 +6,7 @@ import RoomList from "./components/RoomList.js"
 import NewRoomForm from "./components/NewRoomForm.js"
 import { withUser } from './context/UserProvider.js'
 import { tokenUrl, instanceLocator } from './config.js'
-import './chatroom.css'
+import "./Style.css"
 
 
 
@@ -34,7 +34,7 @@ componentDidMount() {
 
   const chatManager = new Chatkit.ChatManager({
       instanceLocator,
-      userId: "Jeremy",
+      userId: "default",
       tokenProvider: tokenProvider
   });
   
@@ -84,8 +84,8 @@ componentDidMount() {
 
   sendMessage(text) {
     
-    console.log(this.currentUser)
-    console.log(text)
+    // console.log(this.currentUser)
+    // console.log(text)
     this.currentUser.sendMessage({
         text: text,
         roomId: this.state.roomId
@@ -140,7 +140,7 @@ fetchMessages(){
         </div>
         <div className="message-list">
           <MessageList
-             
+             n 
               roomId={this.state.roomId}
               messages={this.state.messages}/>
         </div>

@@ -9,8 +9,11 @@ const Navbar = (props)=>{
          {props.token && 
          <>
          <Link to="/">Home</Link>
+         /
          <Link to="/Posts">Posts</Link>
+         /
          <Link to="/ChatRoom">ChatRoom</Link>
+         /
          <Link to="/Contact">Contact</Link>
          </>}
      </div>

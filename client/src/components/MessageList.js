@@ -20,7 +20,7 @@ class MessageList extends React.Component {
             return(
                 <div className = "message-list"> 
                     <div className= "join-room">
-                        &larr; Join a Room!
+                        Join a Room!
                     </div>
                 </div>
             )
